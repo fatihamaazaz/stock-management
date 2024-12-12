@@ -5,11 +5,13 @@ services:
     environment:
       POSTGRES_USER: admin
       POSTGRES_PASSWORD: admin123
-      POSTGRES_DB: mydb
     ports:
       - "5432:5432"
     volumes:
+      - ./init-scripts:/docker-entrypoint-initdb.d
       - postgres_data:/var/lib/postgresql/data
+    networks:
+      - shared_network
 
   pgadmin:
     image: dpage/pgadmin4:7
@@ -24,3 +26,6 @@ services:
 
 volumes:
   postgres_data:
+
+networks:
+  shared_network:

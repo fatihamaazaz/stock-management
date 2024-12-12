@@ -31,11 +31,6 @@ class ProductTest {
         this.validator = factory.getValidator();
     }
 
-    @AfterEach
-    void tearDown(){
-        productRepository.deleteAll();
-    }
-
     @Test
     void shouldReturnValidationErrorForBlankCodeBar(){
         Product product = new Product("", 0);

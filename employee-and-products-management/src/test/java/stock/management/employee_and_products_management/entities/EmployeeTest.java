@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.transaction.annotation.Transactional;
 import stock.management.employee_and_products_management.repositories.EmployeeRepository;
 
 import java.util.Set;
@@ -30,11 +31,6 @@ class EmployeeTest {
         this.validator = factory.getValidator();
     }
 
-    @AfterEach
-    void TearDown(){
-        employeeRepository.deleteAll();
-    }
-
     @Test
     void shouldReturnValidationErrors(){
         Employee employee = new Employee("", "", "f", 123, Role.PURCHASERESPONSABLE);
@@ -44,14 +40,15 @@ class EmployeeTest {
         assertTrue(violations.stream().anyMatch(v -> v.getMessage().contains("doit être une adresse électronique syntaxiquement correcte")));
     }
 
+
     @Test
     void shouldNotAllowSavingEmployeeWithDuplicatedUsername(){
         Employee employee1 = new Employee("fatiha", "fmpass", "f@gmail.com",
                 1234, Role.ADMIN);
-        employeeRepository.saveAndFlush(employee1);
+        employeeRepository.save(employee1);
         Employee employee2 = new Employee("fatiha", "fmpass", "fati@gmail.com",
                 123, Role.ADMIN);
-        assertThrows(DataIntegrityViolationException.class, () -> employeeRepository.saveAndFlush(employee2));
+        assertThrows(DataIntegrityViolationException.class,() -> employeeRepository.saveAndFlush(employee2));
     }
 
 }

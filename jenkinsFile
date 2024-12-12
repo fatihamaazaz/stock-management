@@ -1,0 +1,20 @@
+pipeline {
+    agent {
+        docker {
+            image 'maven:3.9.4-eclipse-temurin-17'
+        }
+    }
+
+    stages {
+        stage('employee and products management module') {
+            steps {
+                sh 'cd ./employee-and-products-management'
+                sh(label: 'validating project', script: 'mvn clean validate')
+                sh(label: 'compiling project', script: 'mvn compile')
+                sh(label: 'testing project', script: 'mvn test')
+                sh(label: 'generating jacoco coverage report', script: 'mvn jacoco:report')
+                sh(label: 'analysing with sonarQube', script: 'mvn sonar:sonar')
+            }
+        }
+    }
+}

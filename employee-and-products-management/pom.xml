@@ -27,7 +27,7 @@
 	</scm>
 	<properties>
 		<java.version>21</java.version>
-		<sonar.host.url>http://localhost:9000</sonar.host.url>
+		<sonar.host.url>http://sonarqube:9000</sonar.host.url>
 		<sonar.projectKey>BM1234</sonar.projectKey>
 		<sonar.projectName>Books Management</sonar.projectName>
 		<sonar.projectVersion>1.0</sonar.projectVersion>

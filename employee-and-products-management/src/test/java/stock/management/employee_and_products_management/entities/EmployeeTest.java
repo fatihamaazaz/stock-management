@@ -13,6 +13,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.transaction.annotation.Transactional;
 import stock.management.employee_and_products_management.repositories.EmployeeRepository;
 
+import java.util.Locale;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -36,8 +37,10 @@ class EmployeeTest {
         Employee employee = new Employee("", "", "f", 123, Role.PURCHASERESPONSABLE);
         Set<ConstraintViolation<Employee>> violations = validator.validate(employee);
         assertEquals(3, violations.size());
-        assertTrue(violations.stream().anyMatch(v -> v.getMessage().contains("ne doit pas être vide")));
-        assertTrue(violations.stream().anyMatch(v -> v.getMessage().contains("doit être une adresse électronique syntaxiquement correcte")));
+        assertTrue(violations.stream().anyMatch(v -> v.getMessage().contains("username cannot be blank")));
+        assertTrue(violations.stream().anyMatch(v -> v.getMessage().contains("password cannot be blank")));
+        assertTrue(violations.stream().anyMatch(v -> v.getMessage()
+                .contains("email needs to be in a correct format: example@domain.ext")));
     }
 
 

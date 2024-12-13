@@ -15,13 +15,13 @@ public class Employee {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @NotBlank
+    @NotBlank(message = "username cannot be blank")
     @Column(unique = true)
     private String username;
-    @NotBlank
+    @NotBlank(message = "password cannot be blank")
     private String password;
-    @NotBlank
-    @Email
+    @NotBlank(message = "email cannot be blank")
+    @Email(message = "email needs to be in a correct format: example@domain.ext")
     @Column(unique = true)
     private String email;
     @Column(unique = true)

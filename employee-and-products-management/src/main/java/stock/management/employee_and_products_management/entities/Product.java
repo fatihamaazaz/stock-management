@@ -15,7 +15,7 @@ public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @NotBlank
+    @NotBlank(message = "codeBar cannot be blank")
     @Column(unique = true)
     private String codeBar;
     private int quantity;

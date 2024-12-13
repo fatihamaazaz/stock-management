@@ -4,10 +4,10 @@ FROM node:latest
 WORKDIR /app
 
 # Copy the script into the container
-COPY ./commandes.sh /app/commandes.sh
+COPY ./commands.sh /app/commands.sh
 
 # Ensure the script is executable
-RUN chmod +x /app/commandes.sh
+RUN chmod +x /app/commands.sh
 
 # Set the script as the entrypoint
-ENTRYPOINT ["sh", "/app/commandes.sh"]
+ENTRYPOINT ["sh", "/app/commands.sh"]

@@ -36,7 +36,7 @@ class ProductTest {
         Product product = new Product("", 0);
         Set<ConstraintViolation<Product>> violations = validator.validate(product);
         assertEquals(1, violations.size());
-        assertTrue(violations.stream().anyMatch(v -> v.getMessage().contains("ne doit pas être vide")));
+        assertTrue(violations.stream().anyMatch(v -> v.getMessage().contains("codeBar cannot be blank")));
     }
 
     @Test

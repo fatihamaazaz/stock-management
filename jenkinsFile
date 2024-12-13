@@ -7,8 +7,9 @@ pipeline {
                 sh 'cd ./employee-and-products-management'
                 sh(label: 'validating project', script: 'mvn clean validate')
                 sh(label: 'compiling project', script: 'mvn compile')
+                sh(label: 'prepare jacoco agent', script: 'mvn org.jacoco:jacoco-maven-plugin:0.8.12:prepare-agent')
                 sh(label: 'testing project', script: 'mvn test')
-                sh(label: 'generating jacoco coverage report', script: 'mvn jacoco:report')
+                sh(label: 'generating jacoco coverage report', script: 'mvn org.jacoco:jacoco-maven-plugin:0.8.12:report')
                 sh(label: 'analysing with sonarQube', script: 'mvn sonar:sonar')
             }
         }

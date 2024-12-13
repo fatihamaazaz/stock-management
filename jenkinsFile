@@ -10,7 +10,7 @@ pipeline {
                 sh(label: 'prepare jacoco agent', script: 'mvn org.jacoco:jacoco-maven-plugin:0.8.12:prepare-agent')
                 sh(label: 'testing project', script: 'mvn test')
                 sh(label: 'generating jacoco coverage report', script: 'mvn org.jacoco:jacoco-maven-plugin:0.8.12:report')
-                sh(label: 'analyzing with sonarQube', script: 'mvn org.sonarsource.scanner.maven:sonar-maven-plugin:3.11.0.3922:sonar')
+                sh(label: 'analyzing with sonarQube', script: 'mvn org.sonarsource.scanner.maven:sonar-maven-plugin:3.11.0.3922:sonar -Dsonar.host.url=http://sonarqube:9000')
             }
         }
     }

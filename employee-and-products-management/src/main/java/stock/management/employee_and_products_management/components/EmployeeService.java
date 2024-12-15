@@ -8,6 +8,7 @@ import org.springframework.validation.annotation.Validated;
 import stock.management.employee_and_products_management.dto.AuthDTO;
 import stock.management.employee_and_products_management.dto.EmployeeDTO;
 import stock.management.employee_and_products_management.entities.Employee;
+import stock.management.employee_and_products_management.entities.Product;
 import stock.management.employee_and_products_management.entities.Role;
 import stock.management.employee_and_products_management.exceptions.EmployeeNotFoundException;
 import stock.management.employee_and_products_management.exceptions.WrongPasswordException;
@@ -39,6 +40,10 @@ public class EmployeeService {
         Employee employee = employeeRepository.findEmployeeByUsername(username).orElseThrow(() ->
                 new EmployeeNotFoundException("Employee of username " + username + " not found"));
         employeeRepository.delete(employee);
+    }
+
+    public Employee updateEmployee(Employee employee){
+        return employeeRepository.save(employee);
     }
 
     public Employee getEmployeeByUsername(String username){

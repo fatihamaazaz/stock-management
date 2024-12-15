@@ -24,4 +24,9 @@ public class Product {
         this.codeBar = codeBar;
         this.quantity = quantity;
     }
+
+    @Override
+    public String toString(){
+        return String.format("/n - codeBar : %s /n/t - Quantity : %d /n", this.codeBar, this.quantity);
+    }
 }

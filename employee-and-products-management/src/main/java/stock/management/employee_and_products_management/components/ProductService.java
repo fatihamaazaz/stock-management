@@ -22,27 +22,27 @@ public class ProductService {
     @Autowired
     private ProductMapping productMapping;
 
-    Product addProduct(@Valid ProductDTO product){
+    public Product addProduct(@Valid ProductDTO product){
         return productRepository.save(productMapping.mapToProduct(product));
     }
 
-    void deleteProductBycodeBar(String codeBar){
+    public void deleteProductBycodeBar(String codeBar){
         Product product = productRepository.findProductByCodeBar(codeBar).orElseThrow(() ->
                 new ProductNotFoundException("product of codeBar" + codeBar + "not found"));
         productRepository.delete(product);
     }
 
-    int getProductQuantityByCodeBar(String codeBar){
+    public int getProductQuantityByCodeBar(String codeBar){
         Product product = productRepository.findProductByCodeBar(codeBar).orElseThrow(() ->
                 new ProductNotFoundException("product of codeBar" + codeBar + " not found"));
         return product.getQuantity();
     }
 
-    List<Product> ListAllProducts(){
+    public List<Product> ListAllProducts(){
         return productRepository.findAll();
     }
 
-    Product updateproductQuantity(String codeBar, int newQuantity){
+    public Product updateproductQuantity(String codeBar, int newQuantity){
         Product product = productRepository.findProductByCodeBar(codeBar).orElseThrow(() ->
                 new ProductNotFoundException("product of codeBar" + codeBar + "not found"));
 

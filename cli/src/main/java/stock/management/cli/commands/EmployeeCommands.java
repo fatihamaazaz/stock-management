@@ -9,6 +9,7 @@ import org.springframework.shell.standard.ShellMethod;
 import org.springframework.shell.standard.ShellOption;
 import stock.management.employee_and_products_management.components.EmployeeService;
 import stock.management.employee_and_products_management.dto.EmployeeDTO;
+import stock.management.employee_and_products_management.entities.Employee;
 import stock.management.employee_and_products_management.entities.Role;
 
 import java.util.HashMap;
@@ -79,5 +80,29 @@ public class EmployeeCommands {
             return "Error: "+ e.getMessage();
         }
 
+    }
+
+    @ShellMethod(key = "updateEmployee", value = "this command update employee account.")
+    public String updateEmployee(@ShellOption(value = { "--username" }) String username,
+                                 @ShellOption(value = { "--password" }, defaultValue = "") String password,
+                                 @ShellOption(value = { "--email" }, defaultValue = "") String email,
+                                 @ShellOption(value = { "--phone" }, defaultValue = "0") String phone){
+        try{
+            String confirmation = GeneralCommands.getConfirmationFromUser("update user of username " + username);
+            if ("y".equalsIgnoreCase(confirmation)){
+                Employee employee = employeeService.getEmployeeByUsername(username);
+                employee.setPassword(password.isEmpty() ? password : employee.getPassword());
+                employee.setEmail(email.isEmpty() ? email : employee.getEmail());
+                employee.setPhone(Integer.parseInt(phone) != 0 ? Integer.parseInt(phone) : employee.getPhone());
+                employeeService.updateEmployee(employee);
+                return "Success: employee has been updated successfuly";
+            }
+            else {
+                return "Failure: deletion operation has been aborted";
+            }
+        }
+        catch (Exception e){
+            return "Error: "+ e.getMessage();
+        }
     }
 }

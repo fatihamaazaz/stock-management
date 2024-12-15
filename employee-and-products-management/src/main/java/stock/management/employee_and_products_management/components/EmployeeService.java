@@ -23,25 +23,25 @@ public class EmployeeService {
     @Autowired
     private EmployeeMapping employeeMapping;
 
-    Employee addStockController(@Valid EmployeeDTO employeeDTO){
+    public Employee addStockController(@Valid EmployeeDTO employeeDTO){
         Employee employee = employeeMapping.mapToEmployee(employeeDTO);
         employee.setRole(Role.STOCKCONTROLLERS);
         return employeeRepository.save(employee);
     }
 
-    Employee addPurchaseResponsible(@Valid EmployeeDTO employeeDTO){
+    public Employee addPurchaseResponsible(@Valid EmployeeDTO employeeDTO){
         Employee employee = employeeMapping.mapToEmployee(employeeDTO);
         employee.setRole(Role.PURCHASERESPONSABLE);
         return employeeRepository.save(employee);
     }
 
-    void deleteEmployeeByUsername(String username){
+    public void deleteEmployeeByUsername(String username){
         Employee employee = employeeRepository.findEmployeeByUsername(username).orElseThrow(() ->
                 new EmployeeNotFoundException("Employee of username " + username + " not found"));
         employeeRepository.delete(employee);
     }
 
-    Employee getEmployeeByUsername(String username){
+    public Employee getEmployeeByUsername(String username){
         return employeeRepository.findEmployeeByUsername(username).orElseThrow(() ->
                 new EmployeeNotFoundException("Employee of username " + username + " not found"));
     }

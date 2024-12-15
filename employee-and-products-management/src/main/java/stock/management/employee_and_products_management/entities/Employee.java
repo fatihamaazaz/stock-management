@@ -36,4 +36,11 @@ public class Employee {
         this.phone = phone;
         this.role = role;
     }
+
+    @Override
+    public String toString(){
+        return String.format("/n/t - username : %s /n/t - password : %s /n/t " +
+                "- email : %s /n/t - phone : %d /n/t - role : %s /n", this.username, this.password, this.email,
+                this.phone, this.role);
+    }
 }

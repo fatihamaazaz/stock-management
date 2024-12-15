@@ -37,6 +37,7 @@
 
 	<modules>
 		<module>employee-and-products-management</module>
+		<module>cli</module>
 	</modules>
 
 	<dependencies>

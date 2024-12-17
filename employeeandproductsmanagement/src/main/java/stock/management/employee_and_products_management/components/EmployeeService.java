@@ -2,7 +2,9 @@ package stock.management.employee_and_products_management.components;
 
 
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 import stock.management.employee_and_products_management.dto.AuthDTO;
@@ -15,14 +17,14 @@ import stock.management.employee_and_products_management.exceptions.WrongPasswor
 import stock.management.employee_and_products_management.mappers.EmployeeMapping;
 import stock.management.employee_and_products_management.repositories.EmployeeRepository;
 
+@RequiredArgsConstructor
 @Validated
 @Service
 public class EmployeeService {
-    @Autowired
-    private EmployeeRepository employeeRepository;
 
-    @Autowired
-    private EmployeeMapping employeeMapping;
+    private final EmployeeRepository employeeRepository;
+
+    private final EmployeeMapping employeeMapping;
 
     public Employee addStockController(@Valid EmployeeDTO employeeDTO){
         Employee employee = employeeMapping.mapToEmployee(employeeDTO);

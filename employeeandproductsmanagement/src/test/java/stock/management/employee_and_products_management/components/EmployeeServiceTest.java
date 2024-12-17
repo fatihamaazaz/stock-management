@@ -3,9 +3,10 @@ package stock.management.employee_and_products_management.components;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import stock.management.employee_and_products_management.dto.AuthDTO;
 import stock.management.employee_and_products_management.dto.EmployeeDTO;
 import stock.management.employee_and_products_management.entities.Employee;
@@ -17,6 +18,7 @@ import stock.management.employee_and_products_management.repositories.EmployeeRe
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
+@ExtendWith(SpringExtension.class)
 class EmployeeServiceTest {
 
     @Autowired
@@ -30,7 +32,7 @@ class EmployeeServiceTest {
     @BeforeEach
     void setUp() {
         employee = employeeRepository.save(new Employee("fatiha", "password",
-                "f@gmail.com", 1234, Role.STOCKCONTROLLERS));
+                "f@gmail.com", "1234", Role.STOCKCONTROLLERS));
     }
 
     @AfterEach
@@ -43,7 +45,7 @@ class EmployeeServiceTest {
         employeeRepository.deleteAll();
         assertEquals(0, employeeRepository.findAll().size());
         EmployeeDTO newEmployee = new EmployeeDTO("fatiha", "password",
-                "f@gmail.com", 1234);
+                "f@gmail.com", "1234");
         underTestService.addStockController(newEmployee);
         assertEquals(1, employeeRepository.findAll().size());
         assertEquals(Role.STOCKCONTROLLERS, employeeRepository.findAll().getFirst().getRole());
@@ -54,7 +56,7 @@ class EmployeeServiceTest {
         employeeRepository.deleteAll();
         assertEquals(0, employeeRepository.findAll().size());
         EmployeeDTO newEmployee = new EmployeeDTO("fatiha", "password",
-                "f@gmail.com", 1234);
+                "f@gmail.com", "1234");
         underTestService.addPurchaseResponsible(newEmployee);
         assertEquals(1, employeeRepository.findAll().size());
         assertEquals(Role.PURCHASERESPONSABLE, employeeRepository.findAll().getFirst().getRole());
@@ -68,7 +70,7 @@ class EmployeeServiceTest {
     }
 
     @Test
-    void shouldReturnErrorForDeletingUnexistingEmployeeUsername() {
+    void shouldReturnErrorForDeletingInexistingEmployeeUsername() {
         assertEquals(1, employeeRepository.findAll().size());
         String userName = "helloWorld";
         assertNotEquals(employee.getUsername(), userName);

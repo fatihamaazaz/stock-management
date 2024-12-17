@@ -24,12 +24,13 @@ public class Employee {
     @Email(message = "email needs to be in a correct format: example@domain.ext")
     @Column(unique = true)
     private String email;
+    @NotBlank(message = "phone number cannot be blank")
     @Column(unique = true)
-    private int phone;
+    private String phone;
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    public Employee(String username, String password, String email, int phone, Role role){
+    public Employee(String username, String password, String email, String phone, Role role){
         this.username = username;
         this.password = password;
         this.email = email;
@@ -40,7 +41,7 @@ public class Employee {
     @Override
     public String toString(){
         return String.format("/n/t - username : %s /n/t - password : %s /n/t " +
-                "- email : %s /n/t - phone : %d /n/t - role : %s /n", this.username, this.password, this.email,
+                "- email : %s /n/t - phone : %s /n/t - role : %s /n", this.username, this.password, this.email,
                 this.phone, this.role);
     }
 }

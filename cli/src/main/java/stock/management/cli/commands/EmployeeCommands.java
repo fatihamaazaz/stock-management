@@ -7,6 +7,7 @@ import org.springframework.shell.standard.ShellCommandGroup;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 import org.springframework.shell.standard.ShellOption;
+import org.springframework.stereotype.Component;
 import stock.management.employee_and_products_management.components.EmployeeService;
 import stock.management.employee_and_products_management.dto.EmployeeDTO;
 import stock.management.employee_and_products_management.entities.Employee;
@@ -18,11 +19,14 @@ import java.util.function.Consumer;
 
 @ShellComponent
 @ShellCommandGroup("Employee management commands")
+@Component
 public class EmployeeCommands {
 
     @Autowired
     private EmployeeService employeeService;
 
+    @Autowired
+    private GeneralCommands generalCommands;
 
     private Map<Role, Consumer<EmployeeDTO>> rolesMapping;
 
@@ -38,7 +42,7 @@ public class EmployeeCommands {
                                                    @ShellOption(value = { "--username" }) String username,
                                                    @ShellOption(value = { "--password" }) String password,
                                                    @ShellOption(value = { "--email" }) String email,
-                                                   @ShellOption(value = { "--phone" }) int phone){
+                                                   @ShellOption(value = { "--phone" }) String phone){
         try{
             EmployeeDTO employeeDTO = new EmployeeDTO(username, password, email, phone);
             if(rolesMapping.containsKey(role)){
@@ -67,7 +71,7 @@ public class EmployeeCommands {
     @ShellMethod(key = "deleteEmployee", value = "this command delete employee account.")
     public String deleteEmployee(@ShellOption(value = { "--username" }) String username){
         try {
-            String confirmation = GeneralCommands.getConfirmationFromUser("delete user of username " + username);
+            String confirmation = generalCommands.getConfirmationFromUser("delete user of username " + username);
             if ("y".equalsIgnoreCase(confirmation)){
                 employeeService.deleteEmployeeByUsername(username);
                 return String.format("Success: employee of username %s has been deleted successfuly", username);
@@ -88,12 +92,12 @@ public class EmployeeCommands {
                                  @ShellOption(value = { "--email" }, defaultValue = "") String email,
                                  @ShellOption(value = { "--phone" }, defaultValue = "0") String phone){
         try{
-            String confirmation = GeneralCommands.getConfirmationFromUser("update user of username " + username);
+            String confirmation = generalCommands.getConfirmationFromUser("update user of username " + username);
             if ("y".equalsIgnoreCase(confirmation)){
                 Employee employee = employeeService.getEmployeeByUsername(username);
-                employee.setPassword(password.isEmpty() ? password : employee.getPassword());
-                employee.setEmail(email.isEmpty() ? email : employee.getEmail());
-                employee.setPhone(Integer.parseInt(phone) != 0 ? Integer.parseInt(phone) : employee.getPhone());
+                employee.setPassword(password.isEmpty() ? employee.getPassword() : password);
+                employee.setEmail(email.isEmpty() ? employee.getEmail() : email);
+                employee.setPhone(phone.isEmpty() ?  employee.getPhone() : phone);
                 employeeService.updateEmployee(employee);
                 return "Success: employee has been updated successfuly";
             }

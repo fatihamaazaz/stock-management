@@ -2,6 +2,7 @@ package stock.management.employee_and_products_management.components;
 
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 import stock.management.employee_and_products_management.dto.ProductDTO;
@@ -13,7 +14,7 @@ import stock.management.employee_and_products_management.repositories.ProductRep
 import java.util.List;
 
 @Validated
-@Service
+@Component
 public class ProductService {
 
     @Autowired

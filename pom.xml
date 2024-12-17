@@ -33,10 +33,13 @@
 
 	<properties>
 		<java.version>21</java.version>
+		<sonar.host.url>http://sonarqube:9000</sonar.host.url>
+		<sonar.login>admin</sonar.login>
+		<sonar.password>admin1</sonar.password>
 	</properties>
 
 	<modules>
-		<module>employee-and-products-management</module>
+		<module>employeeandproductsmanagement</module>
 		<module>cli</module>
 	</modules>
 
@@ -45,10 +48,20 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter</artifactId>
 		</dependency>
-
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<version>1.18.36</version>
+		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<version>2.3.232</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
@@ -56,10 +69,19 @@
 	<build>
 		<plugins>
 			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
+				<groupId>org.sonarsource.scanner.maven</groupId>
+				<artifactId>sonar-maven-plugin</artifactId>
+				<version>3.11.0.3922</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>sonar</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>
+
 
 </project>

@@ -34,7 +34,7 @@ class EmployeeTest {
 
     @Test
     void shouldReturnValidationErrors(){
-        Employee employee = new Employee("", "", "f", 123, Role.PURCHASERESPONSABLE);
+        Employee employee = new Employee("", "", "f", "123", Role.PURCHASERESPONSABLE);
         Set<ConstraintViolation<Employee>> violations = validator.validate(employee);
         assertEquals(3, violations.size());
         assertTrue(violations.stream().anyMatch(v -> v.getMessage().contains("username cannot be blank")));
@@ -47,10 +47,10 @@ class EmployeeTest {
     @Test
     void shouldNotAllowSavingEmployeeWithDuplicatedUsername(){
         Employee employee1 = new Employee("fatiha", "fmpass", "f@gmail.com",
-                1234, Role.ADMIN);
+                "1234", Role.ADMIN);
         employeeRepository.save(employee1);
         Employee employee2 = new Employee("fatiha", "fmpass", "fati@gmail.com",
-                123, Role.ADMIN);
+                "123", Role.ADMIN);
         assertThrows(DataIntegrityViolationException.class,() -> employeeRepository.saveAndFlush(employee2));
     }
 

@@ -5,16 +5,21 @@ import org.springframework.shell.standard.ShellCommandGroup;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 import org.springframework.shell.standard.ShellOption;
+import org.springframework.stereotype.Component;
 import stock.management.employee_and_products_management.components.ProductService;
 import stock.management.employee_and_products_management.dto.ProductDTO;
-import stock.management.employee_and_products_management.entities.Role;
+
 
 @ShellComponent
 @ShellCommandGroup("Products management commands")
+@Component
 public class ProductCommands {
 
     @Autowired
     private ProductService productService;
+
+    @Autowired
+    private GeneralCommands generalCommands;
 
     @ShellMethod(key = "addProduct", value = "This command add new product to database.")
     public String addProduct(@ShellOption(value = { "--codeBar" }) String codeBar,
@@ -32,7 +37,7 @@ public class ProductCommands {
     @ShellMethod(key = "deleteProduct", value = "this command delete product.")
     public String deleteProduct(@ShellOption(value = { "--codeBar" }) String codeBar){
         try {
-            String confirmation = GeneralCommands.getConfirmationFromUser("delete product of codeBar " + codeBar);
+            String confirmation = generalCommands.getConfirmationFromUser("delete product of codeBar " + codeBar);
             if ("y".equalsIgnoreCase(confirmation)){
                 productService.deleteProductBycodeBar(codeBar);
                 return String.format("Success: product of codeBar %s has been deleted successfuly", codeBar);

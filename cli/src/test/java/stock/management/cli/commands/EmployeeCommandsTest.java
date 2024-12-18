@@ -53,21 +53,21 @@ class EmployeeCommandsTest {
 
     @Test
     void shouldAddEmployeeOfRoleStockController(){
-        String result = underTestCommands.addEmployee(Role.STOCKCONTROLLERS, employeeDTO.getUsername(), employeeDTO.getPassword(),
+        String result = underTestCommands.addEmployee(Role.STOCKCONTROLLERS.toString(), employeeDTO.getUsername(), employeeDTO.getPassword(),
                 employeeDTO.getEmail(), employeeDTO.getPhone());
         assertEquals("Success: employee has been added successfuly", result);
     }
 
     @Test
     void shouldReturnErrorMessageForRoleOtherThenStockControllerAndPurchaseResponsible(){
-        String result = underTestCommands.addEmployee(Role.ADMIN, employeeDTO.getUsername(), employeeDTO.getPassword(),
+        String result = underTestCommands.addEmployee(Role.ADMIN.toString(), employeeDTO.getUsername(), employeeDTO.getPassword(),
                 employeeDTO.getEmail(), employeeDTO.getPhone());
         assertEquals("Error: role should be STOCKCONTROLLERS or PURCHASERESPONSABLE", result);
     }
 
     @Test
     void shouldReturnErrorForInvalidEmployeeData(){
-        String result = underTestCommands.addEmployee(Role.STOCKCONTROLLERS, "", employeeDTO.getPassword(),
+        String result = underTestCommands.addEmployee(Role.STOCKCONTROLLERS.toString(), "", employeeDTO.getPassword(),
                 employeeDTO.getEmail(), employeeDTO.getPhone());
         assertTrue(result.contains("username cannot be blank"));
     }

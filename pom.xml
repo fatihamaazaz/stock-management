@@ -39,8 +39,10 @@
 	</properties>
 
 	<modules>
-		<module>employeeandproductsmanagement</module>
+		<module>employee-and-products-management</module>
 		<module>cli</module>
+		<module>kafka</module>
+		<module>delivery-service</module>
 	</modules>
 
 	<dependencies>

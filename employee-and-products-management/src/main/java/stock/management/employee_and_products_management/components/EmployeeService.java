@@ -50,11 +50,11 @@ public class EmployeeService {
                 new EmployeeNotFoundException("Employee of username " + username + " not found"));
     }
 
-    boolean connect(@Valid AuthDTO auth){
+    public boolean connect(@Valid AuthDTO auth, boolean isAdmin){
         Employee employee = employeeRepository.findEmployeeByUsername(auth.getUsername()).orElseThrow(() ->
                 new EmployeeNotFoundException("Employee of username " + auth.getUsername() + " not found"));
         if(auth.getPassword().equals(employee.getPassword())){
-            return true;
+            return (employee.getRole() == Role.ADMIN) || !isAdmin;
         }
         else{
             throw new WrongPasswordException("The given password is not the correct one for the username "

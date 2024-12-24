@@ -4,13 +4,12 @@ package stock.management.employee_and_products_management.commands;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.shell.standard.ShellCommandGroup;
-import org.springframework.shell.standard.ShellComponent;
-import org.springframework.shell.standard.ShellMethod;
-import org.springframework.shell.standard.ShellOption;
+import org.springframework.shell.Availability;
+import org.springframework.shell.standard.*;
 import org.springframework.stereotype.Component;
 import stock.management.employee_and_products_management.components.EmployeeService;
 import stock.management.employee_and_products_management.converter.RoleConverter;
+import stock.management.employee_and_products_management.dto.AuthDTO;
 import stock.management.employee_and_products_management.dto.EmployeeDTO;
 import stock.management.employee_and_products_management.entities.Employee;
 import stock.management.employee_and_products_management.entities.Role;
@@ -30,6 +29,7 @@ public class EmployeeCommands {
     @Autowired
     private GeneralCommands generalCommands;
 
+    private boolean connected;
 
     private Map<Role, Consumer<EmployeeDTO>> rolesMapping;
 
@@ -40,7 +40,21 @@ public class EmployeeCommands {
         rolesMapping.put(Role.PURCHASERESPONSABLE, employeeService::addPurchaseResponsible);
     }
 
+    @ShellMethod(key = "connect", value = "This command allow you to connect.")
+    public String connect(@ShellOption(value = "--username") String username,
+                          @ShellOption(value = "--password") String password) {
+        connected = employeeService.connect(new AuthDTO(username, password), true);
+        return "Connected successfully as " + username;
+    }
+
+    public Availability isAvailable() {
+        return connected
+                ? Availability.available()
+                : Availability.unavailable("Please set your username and password using connect command");
+    }
+
     @ShellMethod(key = "addEmployee", value = "This command create an employee account.")
+    @ShellMethodAvailability("isAvailable")
     public String addEmployee(@ShellOption(value = { "--role" }) String roleString,
                                                    @ShellOption(value = { "--username" }) String username,
                                                    @ShellOption(value = { "--password" }) String password,
@@ -67,6 +81,7 @@ public class EmployeeCommands {
     }
 
     @ShellMethod(key = "getEmployee", value = "this command returns employee informations.")
+    @ShellMethodAvailability("isAvailable")
     public String getEmployee(@ShellOption(value = { "--username" }) String username){
         try{
             return employeeService.getEmployeeByUsername(username).toString();
@@ -77,6 +92,7 @@ public class EmployeeCommands {
     }
 
     @ShellMethod(key = "deleteEmployee", value = "this command delete employee account.")
+    @ShellMethodAvailability("isAvailable")
     public String deleteEmployee(@ShellOption(value = { "--username" }) String username){
         try {
             String confirmation = generalCommands.getConfirmationFromUser("delete user of username " + username);
@@ -95,6 +111,7 @@ public class EmployeeCommands {
     }
 
     @ShellMethod(key = "updateEmployee", value = "this command update employee account.")
+    @ShellMethodAvailability("isAvailable")
     public String updateEmployee(@ShellOption(value = { "--username" }) String username,
                                  @ShellOption(value = { "--password" }, defaultValue = "") String password,
                                  @ShellOption(value = { "--email" }, defaultValue = "") String email,

@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.shell.Availability;
 import org.springframework.shell.standard.*;
 import org.springframework.stereotype.Component;
+import stock.management.delivery_service.components.DatabaseService;
 import stock.management.delivery_service.components.DeliveryService;
 import stock.management.delivery_service.entities.Delivery;
 
@@ -16,14 +17,18 @@ public class DeliveryCommands {
     @Autowired
     private DeliveryService deliveryService;
 
+    @Autowired
+    private DatabaseService databaseService;
+
     private boolean connected;
     private String employee;
 
     @ShellMethod(key = "connect", value = "This command allow you to connect.")
-    public String connect(@ShellOption(value = "--username") String username) {
-        connected = true;
+    public String connect(@ShellOption(value = "--username") String username,
+                          @ShellOption(value = "--password") String password) {
+        connected = databaseService.checkUserExitence(username, password);
         employee = username;
-        return "Connected successfully as " + username;
+        return connected ? "Connected successfully as " + username : "Could not connect";
     }
 
     @ShellMethod(key = "addDelivery", value = "This command create a delivery event.")

@@ -7,6 +7,7 @@ import org.springframework.shell.standard.ShellCommandGroup;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 import org.springframework.shell.standard.ShellOption;
+import stock.management.sales_service.components.DatabaseService;
 import stock.management.sales_service.components.SalesService;
 import stock.management.sales_service.entities.Sale;
 
@@ -17,13 +18,18 @@ public class SalesCommands {
     @Autowired
     private SalesService salesService;
 
+    @Autowired
+    private DatabaseService databaseService;
+
     private boolean connected;
     private String employee;
 
     @ShellMethod(key = "connect", value = "This command allow you to connect.")
-    public void connect(@ShellOption(value = "--username") String username) {
-        connected = true;
+    public String connect(@ShellOption(value = "--username") String username,
+                          @ShellOption(value = "--password") String password) {
+        connected = databaseService.checkUserExitence(username, password);
         employee = username;
+        return connected ? "Connected successfully as " + username : "Could not connect";
     }
 
     @ShellMethod(key = "addDelivery", value = "This command create a sale event.")

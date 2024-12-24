@@ -2,15 +2,40 @@ pipeline {
     agent { label 'agent1' }
 
     stages {
-        stage('employee and products management module') {
-            steps {
-                sh 'cd ./employee-and-products-management'
-                sh(label: 'validating project', script: 'mvn clean validate')
-                sh(label: 'compiling project', script: 'mvn compile')
-                sh(label: 'prepare jacoco agent', script: 'mvn org.jacoco:jacoco-maven-plugin:0.8.12:prepare-agent')
-                sh(label: 'testing project', script: 'mvn test')
-                sh(label: 'generating jacoco coverage report', script: 'mvn org.jacoco:jacoco-maven-plugin:0.8.12:report')
-                sh(label: 'analyzing with sonarQube', script: 'mvn org.sonarsource.scanner.maven:sonar-maven-plugin:3.11.0.3922:sonar -Dsonar.host.url=http://sonarqube:9000  -Dsonar.login=squ_b4e504bb5b2ba743c1f801f823b64639ea84c8d0')
+        stage('Build Modules') {
+            parallel {
+                stage('employee and products management module') {
+                    steps {
+                        sh 'cd ./employee-and-products-management'
+                        sh(label: 'validating project', script: 'mvn clean validate')
+                        sh(label: 'compiling project', script: 'mvn compile')
+                        sh(label: 'prepare jacoco agent', script: 'mvn org.jacoco:jacoco-maven-plugin:0.8.12:prepare-agent')
+                        sh(label: 'testing project', script: 'mvn test')
+                        sh(label: 'generating jacoco coverage report', script: 'mvn org.jacoco:jacoco-maven-plugin:0.8.12:report')
+                        sh(label: 'analyzing with sonarQube', script: 'mvn org.sonarsource.scanner.maven:sonar-maven-plugin:3.11.0.3922:sonar -Dsonar.host.url=http://sonarqube:9000  -Dsonar.login=squ_b4e504bb5b2ba743c1f801f823b64639ea84c8d0')
+                    }
+                }
+                stage('delivery module') {
+                    steps {
+                        sh 'cd ./delivery-service'
+                        sh(label: 'validating project', script: 'mvn clean validate')
+                        sh(label: 'compiling project', script: 'mvn compile')
+                    }
+                }
+                stage('sales module') {
+                    steps {
+                        sh 'cd ./sales-service'
+                        sh(label: 'validating project', script: 'mvn clean validate')
+                        sh(label: 'compiling project', script: 'mvn compile')
+                    }
+                }
+                stage('kafka streams module') {
+                    steps {
+                        sh 'cd ./kafka-streams'
+                        sh(label: 'validating project', script: 'mvn clean validate')
+                        sh(label: 'compiling project', script: 'mvn compile')
+                    }
+                }
             }
         }
     }

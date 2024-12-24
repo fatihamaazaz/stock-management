@@ -80,7 +80,7 @@ class EmployeeServiceTest {
     @Test
     void shouldConnectForCorrectCredentials() {
         AuthDTO credentials = new AuthDTO(employee.getUsername(), employee.getPassword());
-        assertTrue(underTestService.connect(credentials));
+        assertTrue(underTestService.connect(credentials, false));
     }
 
     @Test
@@ -88,7 +88,7 @@ class EmployeeServiceTest {
         String wrongPassword = "wrongPass";
         assertNotEquals(employee.getPassword(), wrongPassword);
         AuthDTO credentials = new AuthDTO(employee.getUsername(), wrongPassword);
-        assertThrows(WrongPasswordException.class, () -> underTestService.connect(credentials));
+        assertThrows(WrongPasswordException.class, () -> underTestService.connect(credentials, false));
     }
 
 }

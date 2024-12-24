@@ -40,8 +40,8 @@
 
 	<modules>
 		<module>employee-and-products-management</module>
-		<module>cli</module>
 		<module>kafka</module>
+		<module>sales-service</module>
 		<module>delivery-service</module>
 	</modules>
 

@@ -1,0 +1,19 @@
+1734920809714:connect fatiha
+1734920840868:addDelivery --product he123 --quantity 3
+1734920900749:exit
+1734920983618:connect fatiha
+1734920998695:addDelivery --product he123 quantity 3
+1734921015056:addDelivery --product he123 --quantity 3
+1734922591911:addDelivery --product he123 --quantity 5
+1734923892979:addDelivery --product he123 --quantity 10
+1734924220970:addDelivery --product he123 --quantity 3
+1734925358903:addDelivery --product he123 --quantity 5
+1734927678859:addDelivery --product he123 --quantity 10
+1734932209357:connect fm
+1734932226054:addDelivery --product he123 --quantity 10
+1734932663741:addDelivery --product he123 --quantity 12
+1734932996046:addDelivery --product he123 --quantity 3
+1734933057095:addDelivery --product he123 --quantity 1
+1734933282281:connect fm
+1734933297000:addDelivery --product he123 --quantity 5
+1734933335662:addDelivery --product he123 --quantity 3

@@ -33,7 +33,7 @@ The system includes basic **mocked sales** and **delivery services** to simulate
 
 ## Architecture 
 
-![architecture](img/architecture.png)
+![architecture](img/architectureV2.png)
 
 ## CI pipeline
 

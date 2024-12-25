@@ -5,9 +5,14 @@ target/
 .mvn/wrapper/maven-wrapper.jar
 **/src/main/**/target/
 **/src/test/**/target/
-.mvn
-**/.mvn
+mvnw.cmd
+mvnw
+**/mvnw.cmd
+**/mvnw
+**/.mvn/wrapper/maven-wrapper.jar
 **/target
+*.log
+**/*.log
 
 ### STS ###
 .apt_generated
